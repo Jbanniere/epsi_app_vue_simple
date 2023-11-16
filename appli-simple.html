@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
+        <script src="https://cdn.tailwindcss.com"></script>
 		<title>Nantes Events</title>
 		<style>
 			#main {
@@ -13,16 +14,44 @@
 	</head>
 	<body>
 		<div id="main">
-            <pre>{{events}}</pre>
-			<h1>Calendrier des évènements : Nantes et Agglo</h1>
-
-            <table v-for="event in events">
-                <a>{{event.code_postal}}</a>
-            </table>
+            <!--<pre>{{events}}</pre>-->
+			<h1 class="m-3 text-center tracking-widest text-gray-500 md:text-lg dark:text-gray-400">Calendrier des évènements : Nantes et Agglo</h1>
+            <div>
+                <h2>Filtrer par :</h2>
+                <label for="city-select">Ville :</label>
+                <select name="city" id="city-select">
+                    <option value="">--Choisissez une ville--</option>
+                    <option value="ville">ville</option>
+                </select>
+            </div>
+            
+            
+            <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th class="px-6 py-3">Nom</th>
+                            <th class="px-6 py-3">Date</th>
+                            <th class="px-6 py-3">Heure de début</th>
+                            <th class="px-6 py-3">Heure de fin</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="event in events">
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td class="px-6 py-4">{{event.nom}}</td>
+                            <td class="px-6 py-4">{{event.date}}</td>
+                            <td class="px-6 py-4">{{event.heure_debut}}</td>
+                            <td class="px-6 py-4">{{event.heure_fin}}</td>
+                            
+                        </tr>
+                        </tbody>
+                </table>
+            </div>
 
 		</div>
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script src="https://unpkg.com/vue@3"></script>
+        
 		<script>
 			const apiUrl = "https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-evenements-nantes-nantes-metropole/records?limit=20";
 			Vue.createApp({
