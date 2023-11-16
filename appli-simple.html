@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Nantes Events</title>
+		<style>
+			#main {
+				font-family: "Helvetica", Arial, sans-serif;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="main">
+            <pre>{{events}}</pre>
+			<h1>Calendrier des évènements : Nantes et Agglo</h1>
+
+            <table v-for="event in events">
+                <a>{{event.code_postal}}</a>
+            </table>
+
+		</div>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="https://unpkg.com/vue@3"></script>
+		<script>
+			const apiUrl = "https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-evenements-nantes-nantes-metropole/records?limit=20";
+			Vue.createApp({
+				data() {
+                    return {
+                        events: [],
+                    }
+
+				},
+
+                created : function() {
+                    this.fetchDataPromise();
+                },
+
+				methods : {
+					fetchDataPromise : async function() {
+						try {
+							const response = await axios.get(apiUrl)
+                            console.log(response.data.results)
+                            this.events = response.data.results
+						} catch {
+							console.log("appel api en erreur")
+							console.log(error)
+						}
+					}
+				}
+			}).mount("#main");
+	    </script>
+    </body>
+</html>
